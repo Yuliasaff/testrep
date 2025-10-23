@@ -1,3 +1,5 @@
+# Landing + Checkout MVP Architecture
+
 ## Tech Stack (MVP)
 
 * **Framework:** Next.js (App Router) + **TypeScript**
@@ -210,11 +212,10 @@ Meta Pixel: `ViewContent` (page), `Lead` (email capture), `InitiateCheckout` (ou
 ```json
 {
   "dependencies": {
-    "next": "13.5.7",
+    "next": "^14.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "contentlayer": "^0.3.4",
-    "next-contentlayer": "^0.3.4",
     "tailwindcss": "^3.4.0",
     "class-variance-authority": "^0.7.0",
     "lucide-react": "^0.441.0"
@@ -224,15 +225,23 @@ Meta Pixel: `ViewContent` (page), `Lead` (email capture), `InitiateCheckout` (ou
     "@types/react": "^18.2.48",
     "autoprefixer": "^10.4.0",
     "postcss": "^8.4.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.5"
   }
 }
 ```
-> ℹ️ *Next.js 14 introduces a peer dependency conflict with `next-contentlayer@0.3.4`. Pinning Next.js to `13.5.7` (with React 18.2) keeps the stack compatible while retaining App Router features needed for this MVP.*
+> ℹ️ *`next-contentlayer` currently lags behind Next.js 14. To keep installs green we lean on the `contentlayer` CLI instead of the plugin. `npm run build` automatically runs `contentlayer build` before `next build`, and the `predev` hook seeds the `.contentlayer/` cache ahead of `next dev`. Reach for `npm run content:dev` when you need the Contentlayer watcher alongside the Next dev server.*
 
 ---
 
 ## Implementation Cheatsheet
+
+### Contentlayer workflow without the Next.js plugin
+
+1. Run `npm run content:build` (or rely on `npm run predev`) after updating MDX so `.contentlayer/` stays in sync.
+2. Use `npm run content:dev` when you need the Contentlayer watcher running alongside the Next dev server. This command proxies through to `contentlayer dev` and will start `next dev` automatically.
+3. CI/CD can simply call `npm run build`; the script already performs a `contentlayer build` before invoking `next build` so production artifacts stay consistent.
 
 ### 1) Variant assignment (`middleware.ts`)
 
