@@ -10,6 +10,7 @@ architecture documented in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and sh
 - Contentlayer integration stubbed to unblock MDX-driven workflows.
 - Foundational directories, routes, and UI component placeholders created.
 - Linting (`npm run lint`) and type checking (`npm run typecheck`) scripts configured for future CI usage.
+- No API routes or external service connections are active yet to keep the scaffold simple.
 
 Subsequent phases will bring in MDX content contracts, fully designed sections, ESP integrations, analytics, and
 launch readiness tasks.
